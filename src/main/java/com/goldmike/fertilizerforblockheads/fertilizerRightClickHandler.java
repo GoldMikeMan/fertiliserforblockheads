@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-public final class FertilizerRightClickHandler {
+public final class fertilizerRightClickHandler {
     private static final int RICH = 1;    // green
     private static final int HEALTHY = 2; // red
     private static final int STABLE = 4;  // yellow
@@ -17,15 +17,15 @@ public final class FertilizerRightClickHandler {
     private static final ResourceLocation RED = rl("farmingforblockheads", "red_fertilizer");
     private static final ResourceLocation YELL = rl("farmingforblockheads", "yellow_fertilizer");
     private static final ResourceLocation VANILLA_FARMLAND = rl("minecraft", "farmland");
-    private static final ResourceLocation FFB_RICH = rl("farmingforblockheads", "fertilized_farmland_rich");
-    private static final ResourceLocation FFB_HEALTHY = rl("farmingforblockheads", "fertilized_farmland_healthy");
-    private static final ResourceLocation FFB_STABLE = rl("farmingforblockheads", "fertilized_farmland_stable");
-    private static final ResourceLocation FFB_RICH_STABLE = rl("farmingforblockheads", "fertilized_farmland_rich_stable");
-    private static final ResourceLocation FFB_HEALTHY_STABLE = rl("farmingforblockheads", "fertilized_farmland_healthy_stable");
+    private static final ResourceLocation FFB_RICH = rl("farmingforblockheads", "fertilised_farmland_rich");
+    private static final ResourceLocation FFB_HEALTHY = rl("farmingforblockheads", "fertilised_farmland_healthy");
+    private static final ResourceLocation FFB_STABLE = rl("farmingforblockheads", "fertilised_farmland_stable");
+    private static final ResourceLocation FFB_RICH_STABLE = rl("farmingforblockheads", "fertilised_farmland_rich_stable");
+    private static final ResourceLocation FFB_HEALTHY_STABLE = rl("farmingforblockheads", "fertilised_farmland_healthy_stable");
     private static final ResourceLocation OUR_RICH_HEALTHY =
-            rl(FertilizerForBlockheads.MODID, "fertilized_farmland_rich_healthy");
+            rl(FertilizerForBlockheads.MODID, "fertilised_farmland_rich_healthy");
     private static final ResourceLocation OUR_RICH_HEALTHY_STABLE =
-            rl(FertilizerForBlockheads.MODID, "fertilized_farmland_rich_healthy_stable");
+            rl(FertilizerForBlockheads.MODID, "fertilised_farmland_rich_healthy_stable");
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock e) {
         Level level = e.getLevel();
@@ -90,5 +90,5 @@ public final class FertilizerRightClickHandler {
         if (id == null) throw new IllegalArgumentException("Invalid ResourceLocation: " + namespace + ":" + path);
         return id;
     }
-    private FertilizerRightClickHandler() {}
+    private fertilizerRightClickHandler() {}
 }
