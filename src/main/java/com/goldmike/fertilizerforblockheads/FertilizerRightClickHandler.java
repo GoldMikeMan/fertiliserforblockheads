@@ -1,35 +1,42 @@
 package com.goldmike.fertilizerforblockheads;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-public final class fertilizerRightClickHandler {
+@Mod.EventBusSubscriber(modid = FertilizerForBlockheads.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+public final class FertilizerRightClickHandler {
     private static final int RICH = 1;    // green
     private static final int HEALTHY = 2; // red
     private static final int STABLE = 4;  // yellow
     private static final ResourceLocation GREEN = rl("farmingforblockheads", "green_fertilizer");
-    private static final ResourceLocation RED = rl("farmingforblockheads", "red_fertilizer");
-    private static final ResourceLocation YELL = rl("farmingforblockheads", "yellow_fertilizer");
+    private static final ResourceLocation RED   = rl("farmingforblockheads", "red_fertilizer");
+    private static final ResourceLocation YELL  = rl("farmingforblockheads", "yellow_fertilizer");
     private static final ResourceLocation VANILLA_FARMLAND = rl("minecraft", "farmland");
-    private static final ResourceLocation FFB_RICH = rl("farmingforblockheads", "fertilised_farmland_rich");
-    private static final ResourceLocation FFB_HEALTHY = rl("farmingforblockheads", "fertilised_farmland_healthy");
-    private static final ResourceLocation FFB_STABLE = rl("farmingforblockheads", "fertilised_farmland_stable");
-    private static final ResourceLocation FFB_RICH_STABLE = rl("farmingforblockheads", "fertilised_farmland_rich_stable");
-    private static final ResourceLocation FFB_HEALTHY_STABLE = rl("farmingforblockheads", "fertilised_farmland_healthy_stable");
+    private static final ResourceLocation FFB_RICH          = rl("farmingforblockheads", "fertilized_farmland_rich");
+    private static final ResourceLocation FFB_HEALTHY       = rl("farmingforblockheads", "fertilized_farmland_healthy");
+    private static final ResourceLocation FFB_STABLE        = rl("farmingforblockheads", "fertilized_farmland_stable");
+    private static final ResourceLocation FFB_RICH_STABLE   = rl("farmingforblockheads", "fertilized_farmland_rich_stable");
+    private static final ResourceLocation FFB_HEALTHY_STABLE= rl("farmingforblockheads", "fertilized_farmland_healthy_stable");
     private static final ResourceLocation OUR_RICH_HEALTHY =
-            rl(FertilizerForBlockheads.MODID, "fertilised_farmland_rich_healthy");
+            rl(FertilizerForBlockheads.MODID, "fertilized_farmland_rich_healthy");
     private static final ResourceLocation OUR_RICH_HEALTHY_STABLE =
-            rl(FertilizerForBlockheads.MODID, "fertilised_farmland_rich_healthy_stable");
-    @SubscribeEvent
+            rl(FertilizerForBlockheads.MODID, "fertilized_farmland_rich_healthy_stable");
+    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock e) {
         Level level = e.getLevel();
         if (level.isClientSide()) return;
+        // avoid double-firing weirdness
+        if (e.getHand() != InteractionHand.MAIN_HAND) return;
         ItemStack held = e.getItemStack();
         ResourceLocation heldId = ForgeRegistries.ITEMS.getKey(held.getItem());
         if (heldId == null) return;
@@ -37,15 +44,26 @@ public final class fertilizerRightClickHandler {
         if (heldId.equals(GREEN)) add = RICH;
         else if (heldId.equals(RED)) add = HEALTHY;
         else if (heldId.equals(YELL)) add = STABLE;
-        else return;
+        else return; // not one of the fertilizers
+        // If you clicked a crop (or anything) on top of farmland, operate on the farmland below.
         BlockPos pos = e.getPos();
         BlockState state = level.getBlockState(pos);
+        if (!(state.getBlock() instanceof FarmBlock)) {
+            BlockPos below = pos.below();
+            BlockState belowState = level.getBlockState(below);
+            if (belowState.getBlock() instanceof FarmBlock) {
+                pos = below;
+                state = belowState;
+            } else {
+                return;
+            }
+        }
         ResourceLocation blockId = ForgeRegistries.BLOCKS.getKey(state.getBlock());
         if (blockId == null) return;
         int current = flagsFromBlock(blockId);
         if (current < 0) return;
         int next = current | add;
-        if (next == current) return;
+        if (next == current) return; // already has that effect, nothing to change
         ResourceLocation targetId = blockFromFlags(next);
         if (targetId == null) return;
         var targetBlock = ForgeRegistries.BLOCKS.getValue(targetId);
@@ -58,6 +76,8 @@ public final class fertilizerRightClickHandler {
         if (!e.getEntity().getAbilities().instabuild) {
             held.shrink(1);
         }
+        e.setUseBlock(Event.Result.DENY);
+        e.setUseItem(Event.Result.DENY);
         e.setCanceled(true);
         e.setCancellationResult(InteractionResult.SUCCESS);
     }
@@ -90,5 +110,5 @@ public final class fertilizerRightClickHandler {
         if (id == null) throw new IllegalArgumentException("Invalid ResourceLocation: " + namespace + ":" + path);
         return id;
     }
-    private fertilizerRightClickHandler() {}
+    private FertilizerRightClickHandler() {}
 }
