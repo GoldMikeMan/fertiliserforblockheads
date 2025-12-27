@@ -1,0 +1,7 @@
+{
+  "block.fertilizerforblockheads.fertilized_farmland_rich_healthy": "Fertilized Farmland",
+  "block.fertilizerforblockheads.fertilized_farmland_rich_healthy_stable": "Fertilized Farmland",
+  "tooltip.fertilizerforblockheads.rich": "Speeds up growth",
+  "tooltip.fertilizerforblockheads.healthy": "Increases crop output",
+  "tooltip.fertilizerforblockheads.stable": "Prevents trampling"
+}
