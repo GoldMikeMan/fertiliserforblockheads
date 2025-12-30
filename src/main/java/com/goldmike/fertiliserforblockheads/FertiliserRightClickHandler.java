@@ -1,4 +1,4 @@
-package com.goldmike.fertilizerforblockheads;
+package com.goldmike.fertiliserforblockheads;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -13,24 +13,22 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-@Mod.EventBusSubscriber(modid = FertilizerForBlockheads.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public final class FertilizerRightClickHandler {
+@Mod.EventBusSubscriber(modid = FertiliserForBlockheads.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+public final class FertiliserRightClickHandler {
     private static final int RICH = 1;    // green
     private static final int HEALTHY = 2; // red
     private static final int STABLE = 4;  // yellow
     private static final ResourceLocation GREEN = rl("farmingforblockheads", "green_fertilizer");
-    private static final ResourceLocation RED   = rl("farmingforblockheads", "red_fertilizer");
-    private static final ResourceLocation YELL  = rl("farmingforblockheads", "yellow_fertilizer");
+    private static final ResourceLocation RED = rl("farmingforblockheads", "red_fertilizer");
+    private static final ResourceLocation YELLOW = rl("farmingforblockheads", "yellow_fertilizer");
     private static final ResourceLocation VANILLA_FARMLAND = rl("minecraft", "farmland");
-    private static final ResourceLocation FFB_RICH          = rl("farmingforblockheads", "fertilized_farmland_rich");
-    private static final ResourceLocation FFB_HEALTHY       = rl("farmingforblockheads", "fertilized_farmland_healthy");
-    private static final ResourceLocation FFB_STABLE        = rl("farmingforblockheads", "fertilized_farmland_stable");
-    private static final ResourceLocation FFB_RICH_STABLE   = rl("farmingforblockheads", "fertilized_farmland_rich_stable");
-    private static final ResourceLocation FFB_HEALTHY_STABLE= rl("farmingforblockheads", "fertilized_farmland_healthy_stable");
-    private static final ResourceLocation OUR_RICH_HEALTHY =
-            rl(FertilizerForBlockheads.MODID, "fertilized_farmland_rich_healthy");
-    private static final ResourceLocation OUR_RICH_HEALTHY_STABLE =
-            rl(FertilizerForBlockheads.MODID, "fertilized_farmland_rich_healthy_stable");
+    private static final ResourceLocation FFB_RICH = rl("farmingforblockheads", "fertilized_farmland_rich");
+    private static final ResourceLocation FFB_HEALTHY = rl("farmingforblockheads", "fertilized_farmland_healthy");
+    private static final ResourceLocation FFB_STABLE = rl("farmingforblockheads", "fertilized_farmland_stable");
+    private static final ResourceLocation FFB_RICH_STABLE = rl("farmingforblockheads", "fertilized_farmland_rich_stable");
+    private static final ResourceLocation FFB_HEALTHY_STABLE = rl("farmingforblockheads", "fertilized_farmland_healthy_stable");
+    private static final ResourceLocation OUR_RICH_HEALTHY = rl(FertiliserForBlockheads.MODID, "fertilized_farmland_rich_healthy");
+    private static final ResourceLocation OUR_RICH_HEALTHY_STABLE = rl(FertiliserForBlockheads.MODID, "fertilized_farmland_rich_healthy_stable");
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock e) {
         Level level = e.getLevel();
@@ -43,8 +41,8 @@ public final class FertilizerRightClickHandler {
         int add;
         if (heldId.equals(GREEN)) add = RICH;
         else if (heldId.equals(RED)) add = HEALTHY;
-        else if (heldId.equals(YELL)) add = STABLE;
-        else return; // not one of the fertilizers
+        else if (heldId.equals(YELLOW)) add = STABLE;
+        else return; // not one of the fertilisers
         // If you clicked a crop (or anything) on top of farmland, operate on the farmland below.
         BlockPos pos = e.getPos();
         BlockState state = level.getBlockState(pos);
@@ -110,5 +108,5 @@ public final class FertilizerRightClickHandler {
         if (id == null) throw new IllegalArgumentException("Invalid ResourceLocation: " + namespace + ":" + path);
         return id;
     }
-    private FertilizerRightClickHandler() {}
+    private FertiliserRightClickHandler() {}
 }

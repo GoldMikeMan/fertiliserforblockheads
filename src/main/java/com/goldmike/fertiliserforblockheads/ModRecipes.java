@@ -1,4 +1,4 @@
-package com.goldmike.fertilizerforblockheads;
+package com.goldmike.fertiliserforblockheads;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -21,11 +21,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class ModRecipes {
-    public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS =
-            DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, FertilizerForBlockheads.MODID);
-    public static final RegistryObject<RecipeSerializer<?>> FARMLAND =
-            SERIALIZERS.register("farmland",
-                    () -> new SimpleCraftingRecipeSerializer<>(farmland::new));
+    public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, FertiliserForBlockheads.MODID);
+    public static final RegistryObject<RecipeSerializer<?>> FARMLAND = SERIALIZERS.register("farmland", () -> new SimpleCraftingRecipeSerializer<>(farmland::new));
     private ModRecipes() {}
 }
 /**

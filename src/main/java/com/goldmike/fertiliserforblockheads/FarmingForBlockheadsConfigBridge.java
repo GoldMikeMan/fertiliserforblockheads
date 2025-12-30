@@ -1,4 +1,4 @@
-package com.goldmike.fertilizerforblockheads;
+package com.goldmike.fertiliserforblockheads;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
 import java.nio.file.Files;

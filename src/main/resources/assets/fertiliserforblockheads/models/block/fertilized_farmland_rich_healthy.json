@@ -2,6 +2,6 @@
   "parent": "minecraft:block/template_farmland",
   "textures": {
     "dirt": "minecraft:block/dirt",
-    "top": "fertilizerforblockheads:block/fertilized_farmland_rich_healthy_stable_moist"
- }
+    "top": "fertiliserforblockheads:block/fertilized_farmland_rich_healthy"
+  }
 }
